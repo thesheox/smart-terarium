@@ -1,7 +1,10 @@
-# Assuming all the classes from the provided code are imported here
-# from your_module import DeviceType, DeviceAction, SensorType, Motor, Sensor, Relay, Manager
-from main import Manager, DeviceType, DeviceAction, SensorType, Relay, Sensor, Motor,Device
 
+from oop.enums import SensorType
+from oop.manager import Manager
+from oop.device import Motor
+from oop.device import Relay
+from oop.device import Sensor
+from server import DeviceType, DeviceAction
 
 def test_create_motor():
     manager = Manager()
