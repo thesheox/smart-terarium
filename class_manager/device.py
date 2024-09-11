@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Union
-from oop.device_status import DeviceStatus
-from oop.enums import SensorType
+from class_manager.device_status import DeviceStatus
+from class_manager.enums import SensorType
 
-from server import DeviceType
+from class_manager.enums import DeviceType
 
 
 class Device(ABC):
@@ -62,13 +62,13 @@ class Device(ABC):
             ValueError: If the device type is unknown.
         """
         if device_type == DeviceType.MOTOR:
-            from oop.motor import Motor
+            from class_manager.motor import Motor
             return Motor(id)
         elif device_type == DeviceType.SENSOR:
-            from oop.sensor import Sensor
+            from class_manager.sensor import Sensor
             return Sensor(id,sensor_type)
         elif device_type == DeviceType.RELAY:
-            from oop.relay import Relay
+            from class_manager.relay import Relay
             return Relay(id)
         else:
             raise ValueError(f"Unknown device type: {device_type}")

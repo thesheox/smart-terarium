@@ -1,9 +1,9 @@
-from oop.enums import SensorType
-from oop.manager import Manager
-from oop.motor import Motor
-from oop.relay import Relay
-from oop.sensor import Sensor
-from server import DeviceType, DeviceAction
+from class_manager.enums import SensorType
+from class_manager.manager import Manager
+from class_manager.motor import Motor
+from class_manager.relay import Relay
+from class_manager.sensor import Sensor
+from class_manager.enums import DeviceType, DeviceAction
 
 def test_create_motor():
     manager = Manager()

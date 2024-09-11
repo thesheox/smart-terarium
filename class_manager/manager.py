@@ -1,12 +1,12 @@
 from typing import List, Optional, Union
-from oop.device import Device
-from oop.device_status import DeviceStatus
-from oop.enums import SensorType
-from oop.motor import Motor
-from oop.relay import Relay
-from oop.sensor import Sensor
+from class_manager.device import Device
+from class_manager.device_status import DeviceStatus
+from class_manager.enums import SensorType
+from class_manager.motor import Motor
+from class_manager.relay import Relay
+from class_manager.sensor import Sensor
 
-from server import DeviceType, DeviceAction
+from class_manager.enums import DeviceType, DeviceAction
 
 
 class Manager:

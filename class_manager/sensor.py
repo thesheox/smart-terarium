@@ -1,6 +1,6 @@
-from oop.device import Device
-from oop.device_status import DeviceStatus
-from oop.enums import SensorType
+from class_manager.device import Device
+from class_manager.device_status import DeviceStatus
+from class_manager.enums import SensorType
 
 
 class Sensor(Device):

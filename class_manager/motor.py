@@ -1,5 +1,5 @@
-from oop.device import Device
-from oop.device_status import DeviceStatus
+from class_manager.device import Device
+from class_manager.device_status import DeviceStatus
 
 
 class Motor(Device):
