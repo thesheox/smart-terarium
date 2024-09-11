@@ -16,7 +16,6 @@ class Client:
         """
         self.__server_host = host
         self.__server_port = port
-        self.__client_socket = None
         self.__connect()
         self.__show_menu()
 
@@ -233,4 +232,4 @@ class Client:
 
 
 if __name__ == "__main__":
-    client = Client()
+    client = Client('127.0.0.1',8080)

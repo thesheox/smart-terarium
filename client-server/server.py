@@ -27,7 +27,6 @@ class Server:
             host (str): The server hostname or IP address.
             port (int): The server port number.
         """
-        self.__server_socket = None
         self.__server_host = host
         self.__server_port = port
         self.__device_map: Dict[int, DeviceType] = {}  # A dictionary to keep track of devices
@@ -239,7 +238,11 @@ class Server:
 
             if device_action in [DeviceAction.ON, DeviceAction.OFF]:
                 # Handle ON/OFF actions for all device types
-                result_message = {"device_id": device_id, "device_action": device_action.value}
+                if device_action == DeviceAction.ON:
+                    state_str = "ON"
+                elif device_action == DeviceAction.OFF:
+                    state_str = "OFF"
+                result_message = {"device_id": device_id, "device_state": state_str}
 
             elif device_action == DeviceAction.CHANGE_SPEED:
                 if device_type != DeviceType.MOTOR:

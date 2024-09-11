@@ -1,11 +1,11 @@
-from typing import Optional, Union
-
+from typing import List, Optional, Union
 from oop.device import Device
 from oop.device_status import DeviceStatus
 from oop.enums import SensorType
-from oop.device import Motor
-from oop.device import Relay
-from oop.device import Sensor
+from oop.motor import Motor
+from oop.relay import Relay
+from oop.sensor import Sensor
+
 from server import DeviceType, DeviceAction
 
 
@@ -14,15 +14,36 @@ class Manager:
 
     def __init__(self) -> None:
         """Initialize the Manager with an empty devices list."""
-        self.__devices = []
+        self.__devices: List[Device] = []
+
+    @property
+    def devices(self) -> List[Device]:
+        """
+        Get the list of devices managed by this Manager.
+
+        Returns:
+            List[Device]: The list of devices.
+        """
+        return self.__devices
+
+    @devices.setter
+    def devices(self, value: List[Device]) -> None:
+        """
+        Set the list of devices.
+
+        Args:
+            value (List[Device]): The list of devices to set.
+        """
+        if isinstance(value, list) and all(isinstance(d, Device) for d in value):
+            self.__devices = value
+        else:
+            raise ValueError("Devices must be a list of Device objects.")
 
     def create_device(
             self,
             device_type: DeviceType,
             id: int,
-            speed: int = 0,
-            sensor_type: Optional[SensorType] = None,
-            path: Optional[str] = None
+            sensor_type: Optional[SensorType] = None
     ) -> str:
         """
         Create a new device and add it to the devices list.
@@ -30,15 +51,18 @@ class Manager:
         Args:
             device_type (DeviceType): The type of device to create.
             id (int): The ID of the device.
-            speed (int): Speed of the motor, if applicable.
-            sensor_type (Optional[SensorType]): Type of the sensor, if applicable.
-            path (Optional[str]): Path of the relay, if applicable.
+            sensor_type (Optional[SensorType]): The type of sensor, if the device is a sensor (optional).
 
         Returns:
             str: Confirmation message of device creation.
         """
-        device = Device.create(device_type, id, speed, sensor_type, path)
-        self.__devices.append(device)
+        # Pass the sensor_type only if the device is a sensor, otherwise set it to None
+        if device_type == DeviceType.SENSOR:
+            device = Device.create(device_type, id, sensor_type)
+        else:
+            device = Device.create(device_type, id)
+
+        self.devices.append(device)
         return f"A {device_type.value} created with id {id}"
 
     def control_device(
@@ -61,7 +85,7 @@ class Manager:
         Raises:
             ValueError: If the action is unknown or inappropriate for the device type.
         """
-        device = next((d for d in self.__devices if d.id == id), None)
+        device = next((d for d in self.devices if d.id == id), None)
 
         if device:
             if action == DeviceAction.ON:
@@ -93,7 +117,7 @@ class Manager:
         Raises:
             ValueError: If the device with the given ID does not exist.
         """
-        device = next((d for d in self.__devices if d.id == id), None)
+        device = next((d for d in self.devices if d.id == id), None)
 
         if device:
             return device.device_status()

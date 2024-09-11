@@ -1,15 +1,14 @@
-
 from oop.enums import SensorType
 from oop.manager import Manager
-from oop.device import Motor
-from oop.device import Relay
-from oop.device import Sensor
+from oop.motor import Motor
+from oop.relay import Relay
+from oop.sensor import Sensor
 from server import DeviceType, DeviceAction
 
 def test_create_motor():
     manager = Manager()
     print("Testing Motor Creation...")
-    result = manager.create_device(DeviceType.MOTOR, 1, speed=100)
+    result = manager.create_device(DeviceType.MOTOR,id=1)
     print(result)  # Should print: a Motor created with id 1
     motor = next(d for d in manager._Manager__devices if isinstance(d, Motor))
     print(f"Motor ID: {motor.id}")
@@ -19,7 +18,7 @@ def test_create_motor():
 def test_create_sensor():
     manager = Manager()
     print("Testing Sensor Creation...")
-    result = manager.create_device(DeviceType.SENSOR, 2, sensor_type=SensorType.LIGHT_SENSOR)
+    result = manager.create_device(DeviceType.SENSOR, 2,SensorType.LIGHT_SENSOR)
     print(result)  # Should print: a Sensor created with id 2
     sensor = next(d for d in manager._Manager__devices if isinstance(d, Sensor))
     print(f"Sensor ID: {sensor.id}")
@@ -30,7 +29,7 @@ def test_create_sensor():
 def test_create_relay():
     manager = Manager()
     print("Testing Relay Creation...")
-    result = manager.create_device(DeviceType.RELAY, 3, path="A-B")
+    result = manager.create_device(DeviceType.RELAY, id=3)
     print(result)  # Should print: a Relay created with id 3
     relay = next(d for d in manager._Manager__devices if isinstance(d, Relay))
     print(f"Relay ID: {relay.id}")
@@ -39,49 +38,49 @@ def test_create_relay():
 
 def test_control_motor_on():
     manager = Manager()
-    manager.create_device(DeviceType.MOTOR, 1, speed=100)
+    manager.create_device(DeviceType.MOTOR, id=1)
     print("Testing Motor Control (ON)...")
     result = manager.control_device(1, DeviceAction.ON)
     print(result)  # Should print: Motor 1 is now ON.
 
 def test_control_motor_change_speed():
     manager = Manager()
-    manager.create_device(DeviceType.MOTOR, 1, speed=100)
+    manager.create_device(DeviceType.MOTOR, id=1)
     print("Testing Motor Speed Change...")
-    result = manager.control_device(1, DeviceAction.CHANGE_SPEED, 200)
+    result = manager.control_device(1, DeviceAction.CHANGE_SPEED, 20)
     print(result)  # Should print: Speed of motor 1 changed to 200
 
 def test_control_sensor_on():
     manager = Manager()
-    manager.create_device(DeviceType.SENSOR, 2, sensor_type=SensorType.LIGHT_SENSOR)
+    manager.create_device(DeviceType.SENSOR, id=2)
     print("Testing Sensor Control (ON)...")
     result = manager.control_device(2, DeviceAction.ON)
     print(result)  # Should print: Sensor 2 is now ON.
 
 def test_control_sensor_get_value():
     manager = Manager()
-    manager.create_device(DeviceType.SENSOR, 2, sensor_type=SensorType.LIGHT_SENSOR)
+    manager.create_device(DeviceType.SENSOR, id=2)
     print("Testing Sensor Value Retrieval...")
     result = manager.control_device(2, DeviceAction.GET_VALUE)
     print(result)  # Should print: Value of sensor 2: 0
 
 def test_control_relay_on():
     manager = Manager()
-    manager.create_device(DeviceType.RELAY, 3, path="A-B")
+    manager.create_device(DeviceType.RELAY, id=3)
     print("Testing Relay Control (ON)...")
     result = manager.control_device(3, DeviceAction.ON)
     print(result)  # Should print: Relay 3 is now ON.
 
 def test_control_relay_change_path():
     manager = Manager()
-    manager.create_device(DeviceType.RELAY, 3, path="A-B")
+    manager.create_device(DeviceType.RELAY, id=3)
     print("Testing Relay Path Change...")
-    result = manager.control_device(3, DeviceAction.CHANGE_PATH, "B-C")
+    result = manager.control_device(3, DeviceAction.CHANGE_PATH, 2)
     print(result)  # Should print: Path of relay 3 changed to B-C
 
 def test_get_device_status():
     manager = Manager()
-    manager.create_device(DeviceType.MOTOR, 1, speed=100)
+    manager.create_device(DeviceType.MOTOR, id=1)
     print("Testing Get Device Status...")
     status = manager.get_state(1)
     print(f"Device ID: {status.id}")
