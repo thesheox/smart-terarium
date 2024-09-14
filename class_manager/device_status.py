@@ -1,16 +1,17 @@
 from typing import Optional, Union
 
+
 class DeviceStatus:
     """Class to encapsulate the status of a device."""
 
     def __init__(
-            self,
-            id: int,
-            status: str,
-            speed: Optional[int] = None,
-            path: Optional[str] = None,
-            sensor_type: Optional[str] = None,
-            value: Optional[Union[int, float]] = None
+        self,
+        id: int,
+        status: str,
+        speed: Optional[int] = None,
+        path: Optional[str] = None,
+        sensor_type: Optional[str] = None,
+        value: Optional[Union[int, float]] = None
     ) -> None:
         """
         Initialize a DeviceStatus instance.
@@ -36,7 +37,7 @@ class DeviceStatus:
         return self.__id
 
     @id.setter
-    def id(self, value: int) -> None:
+    def device_id(self, value: int) -> None:
         """Set the ID of the device."""
         if value >= 0:
             self.__id = value

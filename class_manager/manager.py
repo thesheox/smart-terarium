@@ -5,7 +5,6 @@ from class_manager.enums import SensorType
 from class_manager.motor import Motor
 from class_manager.relay import Relay
 from class_manager.sensor import Sensor
-
 from class_manager.enums import DeviceType, DeviceAction
 
 
@@ -40,10 +39,10 @@ class Manager:
             raise ValueError("Devices must be a list of Device objects.")
 
     def create_device(
-            self,
-            device_type: DeviceType,
-            id: int,
-            sensor_type: Optional[SensorType] = None
+        self,
+        device_type: DeviceType,
+        id: int,
+        sensor_type: Optional[SensorType] = None
     ) -> str:
         """
         Create a new device and add it to the devices list.
@@ -66,10 +65,10 @@ class Manager:
         return f"A {device_type.value} created with id {id}"
 
     def control_device(
-            self,
-            id: int,
-            action: DeviceAction,
-            value: Optional[Union[int, str]] = None
+        self,
+        id: int,
+        action: DeviceAction,
+        value: Optional[Union[int, str]] = None
     ) -> str:
         """
         Control a device by performing the specified action.
@@ -97,8 +96,8 @@ class Manager:
             elif action == DeviceAction.CHANGE_PATH and isinstance(device, Relay):
                 return device.perform_action(value)
             elif action == DeviceAction.GET_VALUE and isinstance(device, Sensor):
-                value = device.perform_action()
-                return f"Value of sensor {device.id}: {value}"
+                sensor_value = device.perform_action()
+                return f"Value of sensor {device.id}: {sensor_value}"
             else:
                 raise ValueError(f"Unknown action or inappropriate device type for action: {action}")
         else:

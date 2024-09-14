@@ -8,7 +8,7 @@ from class_manager.enums import DeviceType, DeviceAction
 def test_create_motor():
     manager = Manager()
     print("Testing Motor Creation...")
-    result = manager.create_device(DeviceType.MOTOR,id=1)
+    result = manager.create_device(DeviceType.MOTOR, id=1)
     print(result)  # Should print: a Motor created with id 1
     motor = next(d for d in manager._Manager__devices if isinstance(d, Motor))
     print(f"Motor ID: {motor.id}")
@@ -18,7 +18,7 @@ def test_create_motor():
 def test_create_sensor():
     manager = Manager()
     print("Testing Sensor Creation...")
-    result = manager.create_device(DeviceType.SENSOR, 2,SensorType.LIGHT_SENSOR)
+    result = manager.create_device(DeviceType.SENSOR, 2, SensorType.LIGHT_SENSOR)
     print(result)  # Should print: a Sensor created with id 2
     sensor = next(d for d in manager._Manager__devices if isinstance(d, Sensor))
     print(f"Sensor ID: {sensor.id}")
@@ -48,7 +48,7 @@ def test_control_motor_change_speed():
     manager.create_device(DeviceType.MOTOR, id=1)
     print("Testing Motor Speed Change...")
     result = manager.control_device(1, DeviceAction.CHANGE_SPEED, 20)
-    print(result)  # Should print: Speed of motor 1 changed to 200
+    print(result)  # Should print: Speed of motor 1 changed to 20
 
 def test_control_sensor_on():
     manager = Manager()
@@ -76,7 +76,7 @@ def test_control_relay_change_path():
     manager.create_device(DeviceType.RELAY, id=3)
     print("Testing Relay Path Change...")
     result = manager.control_device(3, DeviceAction.CHANGE_PATH, 2)
-    print(result)  # Should print: Path of relay 3 changed to B-C
+    print(result)  # Should print: Path of relay 3 changed to 2
 
 def test_get_device_status():
     manager = Manager()

@@ -25,11 +25,6 @@ class Sensor(Device):
         return self.__id
 
     @property
-    def id(self) -> int:
-        """Return the ID of the device."""
-        return self.__id
-
-    @property
     def status(self) -> str:
         """Return the status of the sensor."""
         return self.__status
@@ -48,7 +43,7 @@ class Sensor(Device):
         if value in ["on", "off"]:
             self.__status = value
         else:
-            raise ValueError("Status must be 'on' or 'off'")
+            raise ValueError("Status must be 'on' or 'off'.")
 
     @property
     def sensor_type(self) -> SensorType:

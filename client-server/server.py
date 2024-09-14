@@ -4,10 +4,12 @@ import json
 from enum import Enum
 from typing import Dict, Union
 
+
 class DeviceType(Enum):
     MOTOR = "motor"
     SENSOR = "sensor"
     RELAY = "relay"
+
 
 class DeviceAction(Enum):
     CHANGE_SPEED = "change_speed"
@@ -15,6 +17,7 @@ class DeviceAction(Enum):
     GET_VALUE = "get_value"
     ON = "on"
     OFF = "off"
+
 
 class Server:
     """Server class to handle client connections and process requests."""
@@ -59,8 +62,8 @@ class Server:
         return self.__server_socket
 
     @server_socket.setter
-    def server_socket(self,my_socket:socket.socket) -> None:
-        """Return the server socket."""
+    def server_socket(self, my_socket: socket.socket) -> None:
+        """Set the server socket."""
         self.__server_socket = my_socket
 
     @property
@@ -69,12 +72,12 @@ class Server:
         return self.__device_map
 
     @device_map.setter
-    def device_map(self,data:Dict) -> None:
-        """Return the device map."""
+    def device_map(self, data: Dict[int, DeviceType]) -> None:
+        """Set the device map."""
         self.__device_map = data
 
     def setup_server(self) -> None:
-        """Setup the server to listen for incoming connections."""
+        """Set up the server to listen for incoming connections."""
         self.__server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__server_socket.bind((self.__server_host, self.__server_port))
         self.__server_socket.listen(5)
@@ -165,7 +168,6 @@ class Server:
             Dict[str, Union[int, str]]: The response message.
         """
         try:
-            # Ensure device_id is an integer and greater than zero
             device_id_str = message.get("device_id")
             if not device_id_str.isdigit():
                 raise ValueError("Device ID must be an integer greater than zero.")
@@ -176,15 +178,12 @@ class Server:
             if device_id in self.__device_map:
                 raise ValueError("Device ID already exists.")
 
-            # Ensure device_type is valid
             device_type_str = message.get("device_type").upper()
             try:
-                # Convert device type string to DeviceType enum
                 device_type = DeviceType[device_type_str]
             except KeyError:
                 raise ValueError("Device type must be one of: MOTOR, SENSOR, RELAY.")
 
-            # Store the device ID and its type in the dictionary
             self.__device_map[device_id] = device_type
             print(f"Device with ID {device_id} and type {device_type.value} created on the server.")
             return {
@@ -216,7 +215,6 @@ class Server:
             Dict[str, Union[int, str]]: The response message.
         """
         try:
-            # Ensure device_id is an integer and greater than zero
             device_id_str = message.get("device_id")
             if not device_id_str.isdigit():
                 raise ValueError("Device ID must be an integer greater than zero.")
@@ -224,24 +222,18 @@ class Server:
             if device_id <= 0:
                 raise ValueError("Device ID must be greater than zero.")
 
-            # Ensure device_action is valid
             device_action_str = message.get("device_action").upper()
             try:
                 device_action = DeviceAction[device_action_str]
             except KeyError:
                 raise ValueError("Device action must be one of: CHANGE_SPEED, CHANGE_PATH, GET_VALUE, ON, OFF.")
 
-            # Check if device ID is valid
             device_type = self.__device_map.get(device_id)
             if not device_type:
                 raise ValueError("Invalid device ID.")
 
             if device_action in [DeviceAction.ON, DeviceAction.OFF]:
-                # Handle ON/OFF actions for all device types
-                if device_action == DeviceAction.ON:
-                    state_str = "ON"
-                elif device_action == DeviceAction.OFF:
-                    state_str = "OFF"
+                state_str = "ON" if device_action == DeviceAction.ON else "OFF"
                 result_message = {"device_id": device_id, "device_state": state_str}
 
             elif device_action == DeviceAction.CHANGE_SPEED:
@@ -269,7 +261,6 @@ class Server:
             elif device_action == DeviceAction.GET_VALUE:
                 if device_type != DeviceType.SENSOR:
                     raise ValueError("GET_VALUE action is only valid for SENSOR devices.")
-                # Placeholder for getting the sensor value
                 result_message = {"device_id": device_id, "device_action": device_action.value, "value": "unknown"}
 
             else:
@@ -281,7 +272,6 @@ class Server:
                 "error_message": "",
                 "data": result_message
             }
-
         except ValueError as ve:
             return {
                 "result_code": 1,
@@ -297,16 +287,15 @@ class Server:
 
     def get_device_state(self, message: Dict[str, Union[int, str]]) -> Dict[str, Union[int, str]]:
         """
-        Handle requests to get the state of a device.
+        Handle device state retrieval requests.
 
         Args:
-            message (Dict[str, Union[int, str]]): The message containing device state request details.
+            message (Dict[str, Union[int, str]]): The message containing device state retrieval details.
 
         Returns:
             Dict[str, Union[int, str]]: The response message.
         """
         try:
-            # Ensure device_id is an integer and greater than zero
             device_id_str = message.get("device_id")
             if not device_id_str.isdigit():
                 raise ValueError("Device ID must be an integer greater than zero.")
@@ -314,21 +303,21 @@ class Server:
             if device_id <= 0:
                 raise ValueError("Device ID must be greater than zero.")
 
-            # Check if device ID is valid
             device_type = self.__device_map.get(device_id)
             if not device_type:
                 raise ValueError("Invalid device ID.")
 
-            # Placeholder for getting the device state
-            result_message = {"device_id": device_id, "device_type": device_type.value, "state": "unknown"}
-
-            print(f"Device state requested: {result_message}")
+            result_message = {
+                "device_id": device_id,
+                "device_type": device_type.value,
+                "state": "ON"  # Placeholder, would be determined dynamically
+            }
+            print(f"Device state retrieved: {result_message}")
             return {
                 "result_code": 0,
                 "error_message": "",
                 "data": result_message
             }
-
         except ValueError as ve:
             return {
                 "result_code": 1,
@@ -342,6 +331,6 @@ class Server:
                 "data": {}
             }
 
-if __name__ == "__main__":
-    server = Server('127.0.0.1',8080)
 
+if __name__ == "__main__":
+    server = Server("127.0.0.1", 8080)

@@ -24,10 +24,6 @@ class Relay(Device):
         return self.__id
 
     @property
-    def id(self) -> int:
-        """Return the ID of the device."""
-        return self.__id
-    @property
     def status(self) -> str:
         """Return the status of the relay."""
         return self.__status
@@ -46,7 +42,7 @@ class Relay(Device):
         if value in ["on", "off"]:
             self.__status = value
         else:
-            raise ValueError("Status must be 'on' or 'off'")
+            raise ValueError("Status must be 'on' or 'off'.")
 
     @property
     def path(self) -> Optional[int]:
@@ -64,10 +60,10 @@ class Relay(Device):
         Raises:
             ValueError: If the path is not an integer between 1 and 4.
         """
-        if isinstance(value, int) and 1 <= value <= 3:
+        if isinstance(value, int) and 1 <= value <= 4:
             self.__path = value
         else:
-            raise ValueError("Path must be an integer between 1 and 4")
+            raise ValueError("Path must be an integer between 1 and 4.")
 
     def on(self) -> str:
         """Turn the relay on and update its status."""
@@ -85,9 +81,12 @@ class Relay(Device):
 
         Args:
             path (int): The path to set.
+
+        Returns:
+            str: Confirmation message of path change.
         """
         self.path = path
-        return f"Path of relay {self.id} changed to {self.path}"
+        return f"Path of relay {self.id} changed to {self.path}."
 
     def device_status(self) -> DeviceStatus:
         """
@@ -101,4 +100,3 @@ class Relay(Device):
             status=self.status,
             path=self.path
         )
-

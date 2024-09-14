@@ -1,4 +1,6 @@
 from enum import Enum
+
+
 class DeviceType(Enum):
     """Enum representing different types of devices."""
     MOTOR = "Motor"
@@ -21,4 +23,3 @@ class SensorType(Enum):
     CO2_SENSOR = "CO2 Sensor"
     SOIL_HUMIDITY_SENSOR = "Soil Humidity Sensor"
     AIR_HUMIDITY_AND_TEMPERATURE_SENSOR = "Air Temperature and Humidity Sensor"
-

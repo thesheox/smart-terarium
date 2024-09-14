@@ -20,10 +20,6 @@ class Motor(Device):
     def id(self) -> int:
         """Return the ID of the motor."""
         return self.__id
-    @property
-    def id(self) -> int:
-        """Return the ID of the device."""
-        return self.__id
 
     @property
     def status(self) -> str:
@@ -44,7 +40,7 @@ class Motor(Device):
         if value in ["on", "off"]:
             self.__status = value
         else:
-            raise ValueError("Status must be 'on' or 'off'")
+            raise ValueError("Status must be 'on' or 'off'.")
 
     @property
     def speed(self) -> int:
@@ -60,12 +56,12 @@ class Motor(Device):
             value (int): The speed to set (must be non-negative).
 
         Raises:
-            ValueError: If the speed is negative.
+            ValueError: If the speed is not within the range (0-100).
         """
-        if value >= 0 and value <= 100:
+        if 0 <= value <= 100:
             self.__speed = value
         else:
-            raise ValueError("Speed must be between (0-100) value")
+            raise ValueError("Speed must be between 0 and 100.")
 
     def on(self) -> str:
         """Turn the motor on and update its status."""
@@ -83,9 +79,12 @@ class Motor(Device):
 
         Args:
             speed (int): The speed to set.
+
+        Returns:
+            str: Confirmation message of speed change.
         """
         self.speed = speed
-        return f"Speed of motor {self.id} changed to {self.speed}"
+        return f"Speed of motor {self.id} changed to {self.speed}."
 
     def device_status(self) -> DeviceStatus:
         """
