@@ -109,3 +109,4 @@ class DeviceStatus:
     def value(self, value: Optional[Union[int, float]]) -> None:
         """Set the value of the sensor."""
         self.__value = value
+.
