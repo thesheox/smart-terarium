@@ -5,7 +5,7 @@ from server import DeviceType, DeviceAction  # Ensure to adjust the import path 
 
 
 class Client:
-    """Client class to communicate with the server via socket."""
+    """Client class to communicate with the server via my_socket."""
 
     def __init__(self, host: str, port: int) -> None:
         """
@@ -43,7 +43,7 @@ class Client:
 
     @property
     def client_socket(self) -> socket.socket:
-        """Return the client socket."""
+        """Return the client my_socket."""
         return self.__client_socket
 
     @client_socket.setter

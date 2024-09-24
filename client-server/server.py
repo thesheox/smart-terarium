@@ -58,12 +58,12 @@ class Server:
 
     @property
     def server_socket(self) -> socket.socket:
-        """Return the server socket."""
+        """Return the server my_socket."""
         return self.__server_socket
 
     @server_socket.setter
     def server_socket(self, my_socket: socket.socket) -> None:
-        """Set the server socket."""
+        """Set the server my_socket."""
         self.__server_socket = my_socket
 
     @property
@@ -107,7 +107,7 @@ class Server:
         Handle communication with a connected client.
 
         Args:
-            client_socket (socket.socket): The socket object for client communication.
+            client_socket (socket.socket): The my_socket object for client communication.
         """
         try:
             while True:
